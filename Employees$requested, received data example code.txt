@@ -1,0 +1,48 @@
+employees<-read.csv("https://resources.oreilly.com/examples/9780596153946/raw/master/hfda_ch10_employees.csv", header=TRUE)
+> myLm <-lm(received[negotiated==TRUE]~requested[negotiated==TRUE], data=employees)
+> summary(myLm)
+
+output:
+
+Call:
+lm(formula = received[negotiated == TRUE] ~ requested[negotiated == 
+    TRUE], data = employees)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-13.5560  -0.5914  -0.0601   0.3879  16.9173 
+
+Coefficients:
+                              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                    2.31213    0.21775   10.62   <2e-16 ***
+requested[negotiated == TRUE]  0.72507    0.02573   28.18   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.298 on 998 degrees of freedom
+Multiple R-squared:  0.4431,    Adjusted R-squared:  0.4425 
+F-statistic:   794 on 1 and 998 DF,  p-value: < 2.2e-16
+
+> summary(myLm)$sigma
+[1] 2.297743
+ myLmBig<-lm(received[negotiated==TRUE & requested>10]~requested[negotiated==TRUE & requested>10], data=employees)
+> myLmSmall<-lm(received[negotiated==TRUE & requested<=10]~requested[negotiated==TRUE & requested<=10], data=employees) 
+> summary(myLmSmall)$coefficients
+                                                 Estimate Std. Error   t value
+(Intercept)                                     0.7933468 0.22472009  3.530378
+requested[negotiated == TRUE & requested <= 10] 0.9424946 0.03151835 29.903041
+                                                     Pr(>|t|)
+(Intercept)                                      4.378156e-04
+requested[negotiated == TRUE & requested <= 10] 6.588020e-134
+> summary(myLmSmall)$sigma
+[1] 1.374526
+> summary(myLmBig)$coefficients
+                                               Estimate Std. Error  t value
+(Intercept)                                    7.813403  1.8760371 4.164845
+requested[negotiated == TRUE & requested > 10] 0.302609  0.1420151 2.130824
+                                                   Pr(>|t|)
+(Intercept)                                    4.997597e-05
+requested[negotiated == TRUE & requested > 10] 3.457618e-02
+> summary(myLmBig)$sigma
+[1] 4.544424
+> 
